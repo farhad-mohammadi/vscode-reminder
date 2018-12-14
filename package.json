@@ -3,6 +3,7 @@
     "displayName": "Reminder",
     "description": "Reminder",
     "version": "0.0.1",
+    "publisher": "FarhadMohammadi",
     "engines": {
         "vscode": "^1.29.0"
     },
@@ -10,15 +11,19 @@
         "Other"
     ],
     "icon": "images/icon.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/farhad-mohammadi/vscode-reminder"
+    },
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.setReminder"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+                "command": "extension.setReminder",
+                "title": "Set Reminder"
             }
         ]
     },

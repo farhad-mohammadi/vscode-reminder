@@ -6,19 +6,49 @@ import * as vscode from 'vscode';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+    
+    let disposable = vscode.commands.registerCommand('extension.setReminder', () => {
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "Reminder" is now active!');
+        // Message InputBox options
+        let messageOptions = {
+            prompt: 'Enter your message',
+            placeHolder: 'Message...'
+        }
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with  registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.sayHello', () => {
-        // The code you place here will be executed every time your command is executed
+        // Show the message InputBox to the user
+        vscode.window.showInputBox(messageOptions).then(message => {
 
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World!');
+            // Timer InputBox options
+            let timerOptions = {
+                prompt: 'When should I remind you?',
+                placeHolder: 'Enter time in minutes',
+                validateInput: validateTimerInput
+            };
+    
+            // Show the timer InputBox to the user
+            vscode.window.showInputBox(timerOptions).then(minutes => {
+    
+                // Convert minutes to milliseconds
+                let milliseconds = parseInt(minutes) * 60000;
+                
+                // Start the timer
+                setTimeout(function() {
+
+                    // Show the message to the user
+                    vscode.window.showInformationMessage(message);
+                }, milliseconds);
+            });
+        });
+
+        // Validate the value of the timer InputBox
+        function validateTimerInput(value) {
+            value = parseInt(value);
+            if (isNaN(value)) {
+                return 'Minutes must be a number';
+            } else {       
+                return null;
+            }
+        }
     });
 
     context.subscriptions.push(disposable);
